@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bonus Acknowledgement</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        
+        /* Message Box Styling */
+        #messageBox {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 30px 60px;
+            background-color: #4CAF50; /* Green for success */
+            color: white;
+            font-size: 24px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            z-index: 1000; /* Ensures it's on top */
+        }
+
+        /* Error styling for message box */
+        #messageBox.error {
+            background-color: #f44336; /* Red background for errors */
+        }
+
+        /* Close button inside the message box */
+        #messageBox button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: white;
+            color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #messageBox.error button {
+            color: #f44336;
+        }
+
+    </style>
+</head>
+<body>
+    <form id="detailsForm">
+        <input type="hidden" id="email" name="email" value="">
+        <input type="hidden" id="var1" name="var1" value="">
+        <input type="hidden" id="var2" name="var2" value="">
+    </form>
+
+    <!-- Custom Message Box -->
+    <div id="messageBox">
+        <span id="messageText"></span>
+        <br>
+        <button id="closeButton">Close</button>
+    </div>
+
+    <script>
+        // Get the parameters from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const email = urlParams.get('email');
+        const var1 = urlParams.get('var1');
+        const var2 = urlParams.get('var2');
+        const bearerToken = urlParams.get('token'); // Get the bearer token from the URL
+
+        // Set the values in the hidden input fields
+        document.getElementById('email').value = email;
+        document.getElementById('var1').value = var1;
+        document.getElementById('var2').value = var2;
+
+        // Function to show the custom message box
+        function showMessage(message, isError = false) {
+            const messageBox = document.getElementById('messageBox');
+            const messageText = document.getElementById('messageText');
+            const closeButton = document.getElementById('closeButton');
+
+            messageText.textContent = message;
+            messageBox.style.display = 'block'; // Make the message box visible
+
+            if (isError) {
+                messageBox.classList.add('error'); // Show red background for error
+            } else {
+                messageBox.classList.remove('error'); // Green background for success
+            }
+
+            closeButton.addEventListener('click', function() {
+                window.close(); // Attempt to close the tab
+            });
+        }
+
+        // Automatically trigger the fetch request when the page loads
+        window.addEventListener('load', function() {
+            console.log('Page loaded. Sending data...');
+
+            fetch('https://prod-179.westus.logic.azure.com:443/workflows/9f02f6f333ff486db463f91c81bfa163/triggers/manual/paths/invoke?api-version=2016-06-01', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${bearerToken}`
+                },
+                body: JSON.stringify({
+                    email: email,
+                    var1: var1,
+                    var2: var2
+                })
+            })
+            .then(response => {
+                console.log('Response status:', response.status);
+                return response.text(); // Use response.text() to handle non-JSON responses
+            })
+            .then(text => {
+                if (text) {
+                    try {
+                        const data = JSON.parse(text);
+                        console.log('Success:', data);
+                        showMessage('Thank you for your feedback!', false); // Show success message
+                    } catch (error) {
+                        console.error('Error parsing JSON:', error);
+                        console.error('Response text:', text);
+                        showMessage('Failed to send details. Error parsing response.', true); // Show error message
+                    }
+                } else {
+                    console.log('Empty response received.');
+                    showMessage('Acknowledgement sent successfully, thank you for your feedback.', false); // Show success message
+                }
+            })
+            .catch((error) => {
+                console.error('Fetch error:', error);
+                showMessage('Failed to send acknowledgement, please contact HR.', true); // Show error message
+            });
+        });
+    </script>
+</body>
+</html>
