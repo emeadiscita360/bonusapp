@@ -14,6 +14,8 @@ const targetApiEndpoint = 'YOUR_API_ENDPOINT'; // The endpoint you want to send 
 app.post('/api/get-token', async (req, res) => {
     const { email, var1, var2 } = req.body; // Extract data from the request
 
+    console.log('Received data:', { email, var1, var2 });
+
     try {
         // Fetch the Bearer token
         const tokenResponse = await axios.post(`https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`, new URLSearchParams({
@@ -26,6 +28,7 @@ app.post('/api/get-token', async (req, res) => {
         });
 
         const accessToken = tokenResponse.data.access_token;
+        console.log('Generated access token:', accessToken);
 
         // Send a POST request to the target API with the token and other data
         const apiResponse = await axios.post(targetApiEndpoint, { email, var1, var2 }, {
@@ -35,12 +38,13 @@ app.post('/api/get-token', async (req, res) => {
             }
         });
 
+        console.log('API response:', apiResponse.data);
         res.json({ message: 'Data submitted successfully', apiResponse: apiResponse.data });
     } catch (error) {
         console.error('Error in submit:', error.message);
+        console.error('Full error:', error.response ? error.response.data : error);
         res.status(500).json({ error: 'Failed to process the request' });
     }
 });
 
 module.exports = app;
-
