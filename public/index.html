@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Submission Status</title>
+    <title>Acknowledgement Status</title>
     <style>
         body {
             display: flex;
@@ -42,13 +42,36 @@
         .message-box p {
             font-size: 1.5rem;
         }
+
+        .close-btn {
+            margin-top: 2rem;
+            padding: 0.75rem 1.5rem;
+            font-size: 1.25rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .close-btn.success-btn {
+            background-color: #ffffff;
+            color: #28a745;
+        }
+
+        .close-btn.warning-btn {
+            background-color: #ffffff;
+            color: #ffcc00;
+        }
+
+        .close-btn:hover {
+            opacity: 0.9;
+        }
     </style>
 </head>
 
 <body>
     <div id="messageBox" class="message-box success">
         <h1 id="messageTitle">Success!</h1>
-        <p id="messageText">Your submission was successful.</p>
+        <p id="messageText">Your acknowledgement was successful.</p>
     </div>
 
     <script>
@@ -59,13 +82,26 @@
         const messageBox = document.getElementById('messageBox');
         const messageTitle = document.getElementById('messageTitle');
         const messageText = document.getElementById('messageText');
+        const closeBtn = document.getElementById('closeBtn');
 
         if (!isSuccess) {
             // If the submission failed, change to warning message
             messageBox.classList.remove('success');
             messageBox.classList.add('warning');
             messageTitle.innerText = 'Warning!';
-            messageText.innerText = 'There was a problem with your submission. Please try again.';
+            messageText.innerText = 'Sorry, there was a problem with sending the acknowledgement. Please contact HR directly.';
+            closeBtn.classList.remove('success-btn');
+            closeBtn.classList.add('warning-btn');
+        }
+
+        // Close the browser tab when the button is clicked
+        closeBtn.addEventListener('click', function () {
+            window.close();
+        });
+
+        // Fallback for browsers that don't allow window.close() directly
+        if (!window.close) {
+            closeBtn.innerText = 'You can close this window';
         }
     </script>
 </body>
