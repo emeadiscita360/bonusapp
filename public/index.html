@@ -72,6 +72,7 @@
     <div id="messageBox" class="message-box success">
         <h1 id="messageTitle">Success!</h1>
         <p id="messageText">Your acknowledgement was successful.</p>
+        <button id="closeBtn" class="close-btn success-btn">Close Tab</button>
     </div>
 
     <script>
@@ -89,7 +90,7 @@
             messageBox.classList.remove('success');
             messageBox.classList.add('warning');
             messageTitle.innerText = 'Warning!';
-            messageText.innerText = 'Sorry, there was a problem with sending the acknowledgement. Please contact HR directly.';
+            messageText.innerText = 'There was a problem while sending the info. Please contact HR directly.';
             closeBtn.classList.remove('success-btn');
             closeBtn.classList.add('warning-btn');
         }
@@ -101,7 +102,7 @@
 
         // Fallback for browsers that don't allow window.close() directly
         if (!window.close) {
-            closeBtn.innerText = 'You can close this window';
+            closeBtn.innerText = 'You can close this window.';
         }
     </script>
 </body>
