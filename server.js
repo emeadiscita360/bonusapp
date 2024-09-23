@@ -1,30 +1,27 @@
 const express = require('express');
 const axios = require('axios');
-const path = require('path');
 const app = express();
-
-// Middleware to serve static files from 'public' directory
-app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.json());
 
-// Replace with your Azure AD credentials
-const clientId = 'b8c22525-9f28-49dd-a7ae-6e62e83ddac3';
-const clientSecret = '9Px8Q~ukGIuLajO-n1E.A44o5nyDl6IDaP_P6bha';
-const tenantId = 'eb06985d-06ca-4a17-81da-629ab99f6505';
-const resource = 'https://management.azure.com/.default';
+const clientId = 'your-client-id';  // Your Azure AD client ID
+const clientSecret = 'your-client-secret';  // Your Azure AD client secret
+const tenantId = 'your-tenant-id';  // Your Azure AD tenant ID
+const resource = 'https://management.azure.com/.default';  // The scope for your Logic App
 
-// Endpoint to generate the Bearer token
 app.post('/api/get-token', async (req, res) => {
     try {
-        const tokenResponse = await axios.post(`https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`, new URLSearchParams({
-            client_id: clientId,
-            client_secret: clientSecret,
-            grant_type: 'client_credentials',
-            scope: resource
-        }), {
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-        });
+        const tokenResponse = await axios.post(
+            `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`,
+            new URLSearchParams({
+                client_id: clientId,
+                client_secret: clientSecret,
+                grant_type: 'client_credentials',
+                scope: resource
+            }), {
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+            }
+        );
 
         const accessToken = tokenResponse.data.access_token;
         res.json({ token: accessToken });
@@ -34,9 +31,8 @@ app.post('/api/get-token', async (req, res) => {
     }
 });
 
-app.get('/', (req, res) => {
-    res.send('Node.js server is running!');
-});
+app.listen(3000, () => console.log('Server running on port 3000'));
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
