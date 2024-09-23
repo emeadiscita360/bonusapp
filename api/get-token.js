@@ -7,7 +7,7 @@ app.use(express.json());
 const clientId = 'b8c22525-9f28-49dd-a7ae-6e62e83ddac3';
 const clientSecret = '9Px8Q~ukGIuLajO-n1E.A44o5nyDl6IDaP_P6bha';
 const tenantId = 'eb06985d-06ca-4a17-81da-629ab99f6505';
-const resource = 'https://management.azure.com/.default';
+const resource = 'https://service.flow.microsoft.com//.default';
 const targetApiEndpoint = 'https://prod-179.westus.logic.azure.com:443/workflows/9f02f6f333ff486db463f91c81bfa163/triggers/manual/paths/invoke?api-version=2016-06-01'; // The endpoint you want to send data to
 
 // Endpoint to generate the Bearer token and send a POST request
