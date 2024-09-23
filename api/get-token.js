@@ -1,5 +1,6 @@
 const express = require('express');
 const axios = require('axios');
+const path = require('path');
 
 const app = express();
 app.use(express.json());
@@ -9,6 +10,10 @@ const clientSecret = '9Px8Q~ukGIuLajO-n1E.A44o5nyDl6IDaP_P6bha';
 const tenantId = 'eb06985d-06ca-4a17-81da-629ab99f6505';
 const resource = 'https://service.flow.microsoft.com//.default';
 const targetApiEndpoint = 'https://prod-179.westus.logic.azure.com:443/workflows/9f02f6f333ff486db463f91c81bfa163/triggers/manual/paths/invoke?api-version=2016-06-01'; // The endpoint you want to send data to
+
+
+// Serve static HTML file from the "public" folder
+app.use(express.static('public'));
 
 // Endpoint to generate the Bearer token and send a POST request
 app.get('/api/get-token', async (req, res) => {
@@ -34,10 +39,16 @@ app.get('/api/get-token', async (req, res) => {
             }
         });
 
-        res.json({ message: 'Data submitted successfully', apiResponse: apiResponse.data });
+        // If the API call is successful, redirect with success=true
+        res.redirect('/index.html?success=true');
+
+
     } catch (error) {
         console.error('Error in submit:', error.message);
-        res.status(500).json({ error: 'Failed to process the request' });
+        console.error('Full error:', error.response ? error.response.data : error.message);
+
+        // On failure, redirect with success=false
+        res.redirect('/index.html?success=false');
     }
 });
 
