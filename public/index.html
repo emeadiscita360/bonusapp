@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 
@@ -41,3 +42,45 @@
 </body>
 
 </html>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bonus Acknowledgement</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Optional: If you have styles -->
+</head>
+<body>
+    <button id="submitBtn">Submit</button>
+    <div id="messageBox" style="display:none;">
+        <span id="messageText"></span>
+    </div>
+    
+    <script>
+        document.getElementById('submitBtn').onclick = function() {
+            const email = "user@example.com"; // Replace with actual user email
+            const var1 = "value1"; // Replace with actual value
+            const var2 = "value2"; // Replace with actual value
+
+            fetch('/api/get-token', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, var1, var2 })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('messageText').textContent = 'Success: ' + JSON.stringify(data);
+                document.getElementById('messageBox').style.display = 'block';
+            })
+            .catch(error => {
+                document.getElementById('messageText').textContent = 'Error: ' + error.message;
+                document.getElementById('messageBox').style.display = 'block';
+            });
+        };
+    </script>
+</body>
+</html>
+>>>>>>> 7eaede9b7fab182affa9cd067c994a6e2681b87a
