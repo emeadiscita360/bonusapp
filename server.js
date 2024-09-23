@@ -4,9 +4,9 @@ const app = express();
 
 app.use(express.json());
 
-const clientId = 'your-client-id';  // Your Azure AD client ID
-const clientSecret = 'your-client-secret';  // Your Azure AD client secret
-const tenantId = 'your-tenant-id';  // Your Azure AD tenant ID
+const clientId = 'b8c22525-9f28-49dd-a7ae-6e62e83ddac3';  // Your Azure AD client ID
+const clientSecret = '9Px8Q~ukGIuLajO-n1E.A44o5nyDl6IDaP_P6bha';  // Your Azure AD client secret
+const tenantId = 'eb06985d-06ca-4a17-81da-629ab99f6505';  // Your Azure AD tenant ID
 const resource = 'https://management.azure.com/.default';  // The scope for your Logic App
 
 app.post('/api/get-token', async (req, res) => {
