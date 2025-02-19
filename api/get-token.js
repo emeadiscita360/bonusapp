@@ -31,6 +31,8 @@ app.get('/api/get-token', async (req, res) => {
         // Step 1: Request an access token from Azure AD
         console.log("Requesting token...");
         console.log("Tenant ID:", tenantId);
+        console.log("CLIENT_ID:", process.env.CLIENT_ID);
+        console.log("CLIENT_SECRET:", process.env.CLIENT_SECRET ? "Exists" : "Missing");
         if (!tenantId) throw new Error("Missing TENANT_ID environment variable!");
 
         const tokenResponse = await axios.post(
