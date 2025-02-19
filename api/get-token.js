@@ -5,14 +5,10 @@ const path = require('path');
 const app = express();
 app.use(express.json());
 
-const clientId = 'b8c22525-9f28-49dd-a7ae-6e62e83ddac3';
-const clientSecret = '9Px8Q~ukGIuLajO-n1E.A44o5nyDl6IDaP_P6bha';
-const tenantId = 'eb06985d-06ca-4a17-81da-629ab99f6505';
+const tenantId = process.env.TENANT_ID;
 const resource = 'https://service.flow.microsoft.com//.default';
-const targetApiEndpoint = 'https://prod-179.westus.logic.azure.com:443/workflows/9f02f6f333ff486db463f91c81bfa163/triggers/manual/paths/invoke?api-version=2016-06-01'; // The endpoint you want to send data to
+const targetApiEndpoint = 'https://prod-163.westus.logic.azure.com:443/workflows/8a6133daf6f84b5886380e6c62923730/triggers/manual/paths/invoke?api-version=2016-06-01';
 
-
-// Serve static HTML file from the "public" folder
 app.use(express.static('public'));
 
 // Endpoint to generate the Bearer token and send a POST request
@@ -21,8 +17,8 @@ app.get('/api/get-token', async (req, res) => {
 
     try {
         const tokenResponse = await axios.post(`https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`, new URLSearchParams({
-            client_id: clientId,
-            client_secret: clientSecret,
+            client_id: process.env.CLIENT_ID,
+            client_secret: process.env.CLIENT_SECRET,
             grant_type: 'client_credentials',
             scope: resource
         }), {
@@ -39,8 +35,15 @@ app.get('/api/get-token', async (req, res) => {
             }
         });
 
-        // If the API call is successful, redirect with success=true
-        res.redirect('/index.html?success=true');
+        if (apiResponse.status === 200) {
+            console.log("Power Automate flow triggered successfully");
+            res.redirect(`/index.html?email=${encodeURIComponent(email)}&var1=${encodeURIComponent(var1)}&var2=${encodeURIComponent(var2)}&success=true`);
+
+        }
+        else {
+            console.error("Failed to trigger Power Automate flow", apiResponse.data);
+            res.redirect('/index.html?success=false');
+        }
 
 
     } catch (error) {
