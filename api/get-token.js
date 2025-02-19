@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json());
 const port = 3000;
 
-const tenantId = process.env.TENANT_ID;
+const tenantId = 'eb06985d-06ca-4a17-81da-629ab99f6505';
 const resource = 'https://service.flow.microsoft.com//.default';
 const targetApiEndpoint = 'https://prod-163.westus.logic.azure.com:443/workflows/8a6133daf6f84b5886380e6c62923730/triggers/manual/paths/invoke?api-version=2016-06-01';
 
