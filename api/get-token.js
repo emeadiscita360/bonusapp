@@ -4,6 +4,7 @@ const path = require('path');
 
 const app = express();
 app.use(express.json());
+const port = 3000;
 
 const tenantId = process.env.TENANT_ID;
 const resource = 'https://service.flow.microsoft.com//.default';
