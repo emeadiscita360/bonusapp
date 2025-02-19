@@ -9,7 +9,8 @@ const port = 3000;
 const tenantId = 'eb06985d-06ca-4a17-81da-629ab99f6505';
 const resource = 'https://service.flow.microsoft.com//.default';
 const targetApiEndpoint = 'https://prod-163.westus.logic.azure.com:443/workflows/8a6133daf6f84b5886380e6c62923730/triggers/manual/paths/invoke?api-version=2016-06-01';
-
+console.log("CLIENT_ID:", process.env.CLIENT_ID);
+console.log("CLIENT_SECRET:", process.env.CLIENT_SECRET ? "Exists" : "Missing");
 app.use(express.static('public'));
 
 // Endpoint to generate the Bearer token and send a POST request
@@ -29,6 +30,9 @@ app.get('/api/get-token', async (req, res) => {
     try {
         // Step 1: Request an access token from Azure AD
         console.log("Requesting token...");
+        console.log("Tenant ID:", tenantId);
+        if (!tenantId) throw new Error("Missing TENANT_ID environment variable!");
+
         const tokenResponse = await axios.post(
             `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`,
             new URLSearchParams({
