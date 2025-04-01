@@ -13,7 +13,7 @@ console.log("CLIENT_ID:", process.env.CLIENT_ID);
 console.log("CLIENT_SECRET:", process.env.CLIENT_SECRET ? "Exists ✅" : "❌ MISSING!");
 console.log("TENANT_ID:", process.env.TENANT_ID ? process.env.TENANT_ID : "❌ MISSING!");
 
-const resource = 'https://management.azure.com/.default';
+const resource = 'https://logic.azure.com/.default';
 const targetApiEndpoint = 'https://prod-179.westus.logic.azure.com:443/workflows/9f02f6f333ff486db463f91c81bfa163/triggers/manual/paths/invoke?api-version=2016-06-01';
 
 
