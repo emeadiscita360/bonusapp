@@ -1,13 +1,17 @@
+console.log("🚀 Server is starting...");
 const express = require('express');
 const axios = require('axios');
 const dotenv = require('dotenv');
 
 dotenv.config();
 const app = express();
-const port = 3000;
+const port = 4000;
 
 
 const tenantId = process.env.TENANT_ID;
+console.log("CLIENT_ID:", process.env.CLIENT_ID);
+console.log("CLIENT_SECRET:", process.env.CLIENT_SECRET ? "Exists ✅" : "❌ MISSING!");
+console.log("TENANT_ID:", process.env.TENANT_ID ? process.env.TENANT_ID : "❌ MISSING!");
 
 const resource = 'https://service.flow.microsoft.com//.default';
 const targetApiEndpoint = 'https://prod-179.westus.logic.azure.com:443/workflows/9f02f6f333ff486db463f91c81bfa163/triggers/manual/paths/invoke?api-version=2016-06-01';
@@ -31,6 +35,8 @@ app.get('/api/get-token', async (req, res) => {
     try {
         // Step 1: Request an access token from Azure AD
         console.log("Requesting token...");
+        const url = `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`;
+        console.log("Requesting token from:", url);
         const tokenResponse = await axios.post(
             `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`,
             new URLSearchParams({
