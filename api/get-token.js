@@ -42,7 +42,7 @@ app.get('/api/get-token', async (req, res) => {
                 client_id: process.env.CLIENT_ID,
                 client_secret: process.env.CLIENT_SECRET,
                 grant_type: 'client_credentials',
-                scope: resource
+                scope: 'https://service.flow.microsoft.com/.default'
             }),
             { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
         );
