@@ -10,8 +10,13 @@ const port = 3000;
 
 const tenantId = process.env.TENANT_ID;
 console.log(tenantId);
+console.log("TENANT_ID:", process.env.TENANT_ID);
+console.log("CLIENT_ID:", process.env.CLIENT_ID);
+console.log("CLIENT_SECRET:", process.env.CLIENT_SECRET ? "Exists ✅" : "❌ MISSING!");
+
 const resource = 'https://service.flow.microsoft.com//.default';  // Or your specific resource URL
-const targetApiEndpoint = 'https://prod-163.westus.logic.azure.com:443/workflows/8a6133daf6f84b5886380e6c62923730/triggers/manual/paths/invoke?api-version=2016-06-01';
+const targetApiEndpoint = 'https://prod-179.westus.logic.azure.com:443/workflows/9f02f6f333ff486db463f91c81bfa163/triggers/manual/paths/invoke?api-version=2016-06-01';
+
 
 app.use(express.static('public'));  // Serve static files like index.html
 console.log(1);
