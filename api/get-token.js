@@ -9,15 +9,16 @@ const port = 3000;
 
 
 const tenantId = process.env.TENANT_ID;
+console.log(tenantId);
 const resource = 'https://service.flow.microsoft.com//.default';  // Or your specific resource URL
 const targetApiEndpoint = 'https://prod-163.westus.logic.azure.com:443/workflows/8a6133daf6f84b5886380e6c62923730/triggers/manual/paths/invoke?api-version=2016-06-01';
 
 app.use(express.static('public'));  // Serve static files like index.html
-
+console.log(1);
 app.get('/', (req, res) => {
     res.send('Server is running');
 });
-
+console.log(2);
 app.get('/api/get-token', async (req, res) => {
     console.log("Received request to /api/get-token");
 
@@ -31,7 +32,7 @@ app.get('/api/get-token', async (req, res) => {
         // Step 1: Request an access token from Azure AD
         console.log("Requesting token...");
         const tokenResponse = await axios.post(
-            `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`,
+            `https://login.microsoftonline.com/eb06985d-06ca-4a17-81da-629ab99f6505/oauth2/v2.0/token`,
             new URLSearchParams({
                 client_id: process.env.CLIENT_ID,
                 client_secret: process.env.CLIENT_SECRET,
