@@ -3,6 +3,7 @@ const axios = require('axios');
 const dotenv = require('dotenv');
 
 dotenv.config();
+console.log("TENANT_ID:", process.env.TENANT_ID);
 const app = express();
 const port = 3000;
 
